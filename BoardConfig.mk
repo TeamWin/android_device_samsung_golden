@@ -36,6 +36,9 @@ BOARD_RECOVERY_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_FORCE_RAMDISK_ADDRESS := 0x02000000
 
+# TODO add a real fallback kernel in the event source is missing. this one is for recovery
+TARGET_PREBUILT_KERNEL := device/samsung/golden/recovery/recovery_kernel
+
 # Graphics
 USE_OPENGL_RENDERER := true
 BOARD_EGL_CFG := device/samsung/golden/prebuilt/system/lib/egl/egl.cfg
@@ -76,8 +79,7 @@ BOARD_USES_GENERIC_AUDIO := false
 BOARD_USES_ALSA_AUDIO := true
 
 # USB Mounting
-BOARD_UMS_LUNFILE := "/sys/class/android_usb/android0/f_mass_storage/lun0/file"
-TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/musb-ux500.0/musb-hdrc/gadget/lun%d/file"
+BOARD_UMS_LUNFILE := "/sys/class/android_usb/android0/f_mass_storage/lun/file"
 
 # Vold
 BOARD_VOLD_MAX_PARTITIONS := 25
@@ -90,8 +92,32 @@ BOARD_MOBILEDATA_INTERFACE_NAME := "pdp0"
 
 # Recovery
 BOARD_HAS_NO_SELECT_BUTTON := true
-TARGET_RECOVERY_INITRC = device/samsung/golden/recovery/recovery.rc
+TARGET_PREBUILT_RECOVERY_KERNEL := device/samsung/golden/recovery/recovery_kernel
+TARGET_RECOVERY_INITRC = device/samsung/golden/recovery/root/init.rc
 BOARD_CUSTOM_GRAPHICS := ../../../device/samsung/golden/recovery/graphics.c
 BOARD_HAS_NO_MISC_PARTITION := true
 BOARD_SUPPRESS_EMMC_WIPE := true
 BOARD_HAS_NO_MISC_PARTITION := true
+
+# twrp stuffs
+# TODO recovery/twrp-graphics.c: please see the file for comments
+TW_BOARD_CUSTOM_GRAPHICS := ../../../device/samsung/golden/recovery/twrp-graphics.c
+DEVICE_RESOLUTION := 480x800
+RECOVERY_SDCARD_ON_DATA := true
+TW_INTERNAL_STORAGE_PATH := "/data/media"
+TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
+TW_EXTERNAL_STORAGE_PATH := "/external_sd"
+TW_EXTERNAL_STORAGE_MOUNT_POINT := "external_sd"
+TW_NO_REBOOT_BOOTLOADER := true
+TW_HAS_DOWNLOAD_MODE := true
+BOARD_HAS_NO_REAL_SDCARD := true
+TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/virtual/android_usb/android0/f_mass_storage/lun/file
+
+TW_INCLUDE_CRYPTO_SAMSUNG := true
+TW_INCLUDE_CRYPTO := true
+TW_CRYPTO_FS_TYPE := "ext4"
+TW_CRYPTO_REAL_BLKDEV := "/dev/block/mmcblk0p25"
+TW_CRYPTO_MNT_POINT := "/data"
+TW_CRYPTO_FS_OPTIONS := "noatime,nosuid,nodev,discard,noauto_da_alloc,journal_async_commit,errors=panic    wait,check"
+TW_CRYPTO_FS_FLAGS := "0x00000406"
+TW_CRYPTO_KEY_LOC := "footer"

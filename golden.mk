@@ -23,7 +23,7 @@ $(call inherit-product, build/target/product/languages_full.mk)
 $(call inherit-product, device/common/gps/gps_eu_supl.mk)
 
 # Use the Dalvik VM specific for devices with 1024 MB of RAM
-$(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
+# $(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
 
 # Inherit the proprietary vendors
 $(call inherit-product-if-exists, vendor/samsung/golden/golden-vendor.mk)
@@ -133,12 +133,18 @@ PRODUCT_COPY_FILES += \
     device/samsung/golden/prebuilt/root/init.samsunggolden.rc:root/init.samsunggolden.rc \
     device/samsung/golden/prebuilt/root/init.samsunggolden.usb.rc:root/init.samsunggolden.usb.rc \
     device/samsung/golden/prebuilt/root/ueventd.samsunggolden.rc:root/ueventd.samsunggolden.rc \
-    device/samsung/golden/recovery/recovery.rc:root/recovery.rc \
-    device/samsung/golden/prebuilt/root/prerecovery.rc:root/prerecovery.rc \
-    device/samsung/golden/prebuilt/root/lpm.rc:root/lpm.rc \
     device/samsung/golden/prebuilt/root/fstab.samsunggolden:root/fstab.samsunggolden \
-    device/samsung/golden/prebuilt/root/lib/modules/j4fs.ko:root/lib/modules/j4fs.ko \
-    device/samsung/golden/prebuilt/root/lib/modules/param.ko:root/lib/modules/param.ko
+
+# Recovery stuffs
+PRODUCT_COPY_FILES += \
+    device/samsung/golden/recovery/root/init.rc:recovery/root/init.rc \
+    device/samsung/golden/recovery/root/lpm.rc:recovery/root/lpm.rc \
+    device/samsung/golden/recovery/root/ueventd.samsunggolden.rc:recovery/root/ueventd.samsunggolden.rc \
+    device/samsung/golden/recovery/root/sbin/libkeyutils.so:recovery/root/sbin/libkeyutils.so \
+    device/samsung/golden/recovery/root/sbin/libsec_km.so:recovery/root/sbin/libsec_km.so \
+    device/samsung/golden/recovery/root/sbin/libsec_ecryptfs.so:recovery/root/sbin/libsec_ecryptfs.so \
+    device/samsung/golden/recovery/root/lib/modules/j4fs.ko:recovery/root/lib/modules/j4fs.ko \
+    device/samsung/golden/recovery/root/lib/modules/param.ko:recovery/root/lib/modules/param.ko
 
 # OMXLoader
 PRODUCT_COPY_FILES += \
